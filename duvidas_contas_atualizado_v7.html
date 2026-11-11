@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dúvidas Contas - Hospital Moinhos de Vento</title>
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- IBM Plex Sans Font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          siteBg: '#e9ecef',
+          btnBg: '#b0bec5',
+          btnHover: '#90a4ae',
+          btnText: '#2c3e50',
+          bannerDark: '#1a252f'
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --bg-main: #e9ecef;
+    --card-bg: #ffffff;
+    --text-main: #212529;
+    --text-muted: #495057;
+    --border-color: #ced4da;
+    --btn-bg: #b0bec5;
+    --btn-hover: #90a4ae;
+    --btn-text: #1a252f;
+  }
+  
+  .dark {
+    --bg-main: #12181f;
+    --card-bg: #1c242e;
+    --text-main: #e9ecef;
+    --text-muted: #a0aec0;
+    --border-color: #2d3748;
+    --btn-bg: #2d3748;
+    --btn-hover: #4a5568;
+    --btn-text: #e2e8f0;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .hero-banner {
+    background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.3);
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body class="min-h-screen transition-colors duration-200">
+
+<!-- Header / Banner Principal -->
+<header class="hero-banner h-48 md:h-56 flex items-center justify-center text-center shadow-inner relative">
+  <div class="px-4">
+    <h1 class="text-3xl md:text-5xl font-bold text-white tracking-wide drop-shadow-md">Dúvidas Contas</h1>
+    <p class="text-xs md:text-sm text-gray-200 mt-2 tracking-widest uppercase font-medium">Hospital Moinhos de Vento — Portal de Rotinas e Contatos</p>
+  </div>
+  
+  <div class="absolute top-4 right-4 flex items-center gap-2">
+    <button id="themeToggleBtn" onclick="toggleTheme()" class="px-3 py-1.5 rounded-md bg-black/40 text-white hover:bg-black/60 transition-all text-xs flex items-center gap-1.5 backdrop-blur-sm border border-white/20">
+      <i id="themeIcon" class="fa-solid fa-sun"></i>
+      <span id="themeText" class="hidden sm:inline">Claro</span>
+    </button>
+    <button onclick="go(0, true)" class="px-3 py-1.5 rounded-md bg-black/40 text-white hover:bg-black/60 transition-all text-xs flex items-center gap-1.5 backdrop-blur-sm border border-white/20">
+      <i class="fa-solid fa-house"></i>
+      <span class="hidden sm:inline">Início</span>
+    </button>
+  </div>
+</header>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+
+  <!-- Dynamic Breadcrumb -->
+  <div id="breadcrumb" class="mb-6 flex items-center gap-2 text-xs text-[var(--text-muted)] hidden">
+    <button onclick="go(0, true)" class="hover:underline flex items-center gap-1 font-semibold">
+      <i class="fa-solid fa-house text-[10px]"></i> Início
+    </button>
+    <i class="fa-solid fa-chevron-right text-[9px] opacity-60"></i>
+    <span id="breadcrumbCurrent" class="font-bold text-blue-600 dark:text-blue-400"></span>
+  </div>
+
+  <!-- Container Conteúdo Principal -->
+  <main id="main" tabindex="-1" class="outline-none">
+    <!-- Conteúdo dinâmico -->
+  </main>
+
+  <footer class="mt-12 text-center text-xs text-[var(--text-muted)] flex flex-col sm:flex-row justify-between items-center gap-2 border-t border-[var(--border-color)] pt-6">
+    <p>© Setor Dúvidas Contas — Hospital Moinhos de Vento</p>
+    <p class="flex items-center gap-1">
+      <i class="fa-solid fa-circle-info text-blue-500"></i> Uso exclusivo interno de equipe
+    </p>
+  </footer>
+</div>
+
+<script>
+var SECTION_ICONS = {
+  inicio: "fa-house",
+  treinamento: "fa-graduation-cap",
+  orpen: "fa-folder-open",
+  getnet: "fa-credit-card",
+  effort: "fa-headset",
+  formularios: "fa-file-signature",
+  ferramentas: "fa-wrench",
+  lembretes: "fa-bell",
+  checkout: "fa-cash-register",
+  indicadores: "fa-chart-line",
+  pagamentos: "fa-wallet",
+  politicas: "fa-scale-balanced",
+  contatos: "fa-address-book",
+  liderancas: "fa-users-gear",
+  extratos: "fa-file-invoice-dollar"
+};
+
+var CATEGORIES = [
+  {
+    categoryTitle: "Procedimentos e Ferramentas Principais",
+    items: ["treinamento", "orpen", "getnet", "effort", "formularios", "ferramentas", "lembretes"]
+  },
+  {
+    categoryTitle: "Gestão Financeira e Pagamentos",
+    items: ["checkout", "indicadores", "pagamentos", "politicas", "extratos"]
+  },
+  {
+    categoryTitle: "Apoio e Comunicação",
+    items: ["contatos", "liderancas"]
+  }
+];
+
+var T = [
+  {id:"inicio",t:"Início",d:"Visão geral do manual"},
+  {
+    "id": "treinamento",
+    "t": "Manual de Treinamento e Fluxos",
+    "d": "Responsabilidades, régua de cobrança e procedimentos internos",
+    "o": "Guia de rotinas, responsabilidade da equipe, fluxo de cobrança e regras operacionais.",
+    "sec": [
+      {
+        "t": "1. Responsabilidades da Equipe",
+        "tb": {
+          "h": ["Integrante", "Atribuições Principal e Responsabilidades"],
+          "r": [
+            ["Cristiana Pilon (Analista)", "Controlar e acompanhar contas em aberto acima de R$ 10.000,00 e status 95; acompanhar contas abertas e indicadores mensais; emitir notificações extrajudiciais (> R$ 10.000); envio de lotes ORPEN; contas do Dr. Mauro Meyer."],
+            ["William", "Monitorar e-mails recebidos; responder dúvidas de pacientes/responsáveis; acompanhar solicitações pendentes e retornos de áreas; encaminhar questionamentos sobre fechamento de contas; quitações de transferência PIX enviadas por e-mail; atendimento de telefone/WhatsApp."],
+            ["Nara", "Realizar contato com familiares ou responsáveis 10 dias após o óbito para tratar da cobrança; emitir notificações extrajudiciais para contas acima de R$ 3.000,00; atendimento de telefone/WhatsApp."],
+            ["Carolaine", "Acompanhar contas com vencimento em 3 dias e contas com 5 dias de atraso; enviar lembretes de pagamento; realizar contatos ativos por WhatsApp e telefone; orientar sobre formas de pagamento e acompanhar pendências."]
+          ]
+        },
+        "w": "Atividades Compartilhadas: O WhatsApp e o telefone do setor são atendidos por William, Nara e Carolaine conforme demanda."
+      },
+      {
+        "t": "2. Fluxo Geral da Cobrança",
+        "n": [
+          "Alta do paciente: após a alta, a conta é fechada pela Auditoria ou setor responsável.",
+          "Emissão da Nota Fiscal: após fechamento, ocorre a emissão da NF pelo setor de cobrança.",
+          "Planilha de cobrança: Setor de cobrança encaminha diariamente a planilha dos casos a cobrar (atendimento, nome e valor).",
+          "Conferência: consultar obrigatoriamente a conta no MV Contas a Receber antes de realizar a cobrança.",
+          "Distribuição: contas até R$ 10.000,00 seguem fluxo ORPEN; contas acima de R$ 10.000,00 são controladas por Cristiana.",
+          "Contato: realizar cobrança conforme a etapa e situação da conta.",
+          "Registro: registrar todos os contatos no MV em Evolução Administrativa IMPORTANTE.",
+          "Acompanhamento: monitorar pagamentos, respostas e pendências."
+        ],
+        "w": "A alta hospitalar não deve ser impedida por falta de pagamento, mas a apresentação da cobrança deve ser feita sempre consultando o Contas a Receber."
+      },
+      {
+        "t": "3. Régua de Cobrança (Prazos a partir da emissão da NF)",
+        "tb": {
+          "h": ["Etapa", "Prazo", "Procedimento"],
+          "r": [
+            ["1. Cobrança Interna", "Primeiros 10 dias", "Equipe realiza as tentativas de cobrança e acompanha o caso."],
+            ["2. Emissão do Boleto", "11º dia", "Emitir o boleto com mais 10 dias para pagamento."],
+            ["3. Após Vencimento", "10 dias adicionais", "Retomar as tentativas de cobrança interna."],
+            ["4. Assessoria Externa", "60 dias", "Encaminhar a conta para a Angeza ou Métrica."],
+            ["5. Retorno ao Hospital", "Após período externo sem recebimento", "Encaminhar para campanha correspondente conforme o valor (Pré-baixa ou Pré-ajuizamento)."]
+          ]
+        },
+        "l": [
+          "Pré-baixa (Contas abaixo de R$ 3.000,00): Tentativa final. Sem recebimento, segue para baixa como perda financeira.",
+          "Pré-ajuizamento (Contas acima de R$ 3.000,00): Tentativa final antes do jurídico. Sem recebimento, segue para cobrança judicial."
+        ]
+      },
+      {
+        "t": "4. Tipos de Cobrança",
+        "l": [
+          "Conta 100% Particular: Consultar conta no MV, verificar emissão de NF e pagamento, contatar cliente conforme régua, orientar e registrar no MV.",
+          "Negativa de Convênio: Consultar protocolo de guias. Informar ao paciente APENAS o número da guia negada para que solicite detalhes à operadora. Não enviar documentação interna.",
+          "Ausência de Cobertura: Verificar se existe termo de ciência assinado. Se houver, cobrar; se não houver, investigar o motivo com o setor responsável.",
+          "Glosa de Convênio: Receber documento da Auditoria por e-mail, apresentar ao paciente e orientar que esclarecimentos adicionais sejam solicitados ao convênio."
+        ]
+      },
+      {
+        "t": "5. Registro dos Contatos no MV e Status da Cobrança",
+        "tx": "Caminho no sistema: MV Outros → Room Service → Consultas → Consulta de Evoluções Administrativas → Nova.",
+        "p": [
+          "Informar o Número do Atendimento.",
+          "Selecionar o Tipo de Evolução: 77.",
+          "Preencher a Descrição clara do contato (detalhes do tratado, orientações, retornos e pendências)."
+        ],
+        "tb": {
+          "h": ["Status", "Significado"],
+          "r": [
+            ["11", "Evolução administrativa"],
+            ["57", "Ainda não foi enviado para o jurídico"],
+            ["61", "Andrade Maia – Jurídico: 3227-3455 – E-mail: nucleohmv@andrademaia.com"],
+            ["76", "Termo de baixa"],
+            ["77", "Cobrança ativa com sucesso"],
+            ["78", "Primeira tentativa de cobrança sem sucesso"],
+            ["79", "Segunda tentativa de cobrança sem sucesso"],
+            ["85", "Cobrança ativa sem negociação"],
+            ["95", "Em negociação com o Dúvidas"],
+            ["105", "Hackmann – Jurídico: 3328-1286"],
+            ["117", "Liminar pend pagamento"]
+          ]
+        }
+      },
+      {
+        "t": "6. Dúvidas ou Erros no Fechamento da Conta",
+        "p": [
+          "Conferir as informações no MV.",
+          "Verificar exatamente com quem fechou a conta (identificar a pessoa/setor responsável pelo fechamento).",
+          "Questionar a área responsável sempre que o paciente não concordar com os valores ou lançamentos.",
+          "Encaminhar e-mail detalhado contendo: Número de Atendimento, Nome do Paciente e Descrição clara da contestação do paciente ou do erro identificado.",
+          "Acompanhar para obter retorno formal em até 24 horas (não concluir nem avançar a cobrança sem a devida confirmação/ajuste)."
+        ],
+        "w": "Atenção: Sempre consulte o setor de fechamento quando houver contestação por parte do paciente."
+      },
+      {
+        "t": "7. Termo de Confissão de Dívida",
+        "w": "O Termo de Confissão de Dívida NÃO deve ser oferecido diretamente pela equipe. A necessidade deve ser analisada pela Cristiana Pilon em conjunto com a supervisão/coordenação."
+      },
+      {
+        "t": "8. Rotina Diária de Acompanhamento",
+        "l": [
+          "Verificar contas sob sua responsabilidade no MV.",
+          "Conferir contas a vencer em 3 dias e com 5 dias de atraso (enviar lembretes).",
+          "Atender chamados de WhatsApp, telefone e e-mail.",
+          "Registrar contatos/pendências no MV e atualizar controles."
+        ]
+      }
+    ],
+    "sn": 1
+  },
+  {
+    "id": "orpen",
+    "t": "ORPEN",
+    "d": "Uso da ferramenta ORPEN e prioridades de atendimento",
+    "o": "Acesso e diretrizes operacionais do sistema ORPEN e modelos de mensagem.",
+    "lk": "https://orpenapp.hmv.org.br/rcx/login.php",
+    "p": [
+      "Cada integrante do setor possui o seu próprio login individual de acesso.",
+      "Nossa prioridade principal no setor é responder às solicitações da ORPEN e realizar o atendimento das ligações telefônicas."
+    ],
+    "sec": [
+      {
+        "t": "Canais de atendimento do suporte ORPEN",
+        "tb": {
+          "h": ["Horário", "Canal"],
+          "r": [
+            ["Em horário comercial", "E-mail: chamado@orpen.com.br. Telefone/WhatsApp: (51) 3014-5600."],
+            ["Fora do horário comercial, finais de semana e feriados", "Telefone: (51) 3014-5600."]
+          ]
+        }
+      },
+      {
+        "t": "Modelos de texto para atendimento",
+        "tx": "Abaixo você encontra as mensagens prontas para agilizar o atendimento aos pacientes via WhatsApp e e-mail. Selecione o modelo desejado no final da página para copiá-lo."
+      }
+    ],
+    "sub": [
+      {"t": "Apresentação da despesa", "c": "Prezado(a),\n\nO motivo do nosso contato é referente a valores particulares gerados durante o seu atendimento no Hospital Moinhos de Vento.\n\nO valor pode estar relacionada a despesas sem cobertura contratual, negativas da operadora, glosas ou atendimentos realizados integralmente em caráter particular.\n\nEncaminhamos em anexo o relatório analítico, contendo a descrição dos itens e os respectivos valores que permanecem sob responsabilidade particular.\n\nO pagamento poderá ser realizado via PIX ou link de pagamento por cartão de crédito.\nCaso tenha dúvidas ou necessite de esclarecimentos adicionais, permanecemos à disposição!\n\nObs.: Esta conversa poderá ser encerrada automaticamente em caso de inatividade. Se isso acontecer, você poderá entrar em contato novamente pelos canais abaixo:\n\n📧 E-mail: duvidascontas@hmv.org.br\n📱 WhatsApp: (51) 3314-3434 – Opções 3 (Informações) > 5 (Dúvidas Contas Paciente)\n📞 Telefone: (51) 3314-3300 – Opções 4 > 7 > 1\n\nAtendimento de segunda a sexta-feira, das 9h às 17h."},
+      {"t": "Retomar atendimento", "c": "Bom dia! / Boa tarde! Meu nome é ___________, falo do setor financeiro do Hospital Moinhos de Vento, como posso ajudá-lo(a)?"},
+      {"t": "Envio da chave PIX", "c": "Prezado(a),\n\nSeguem os dados da chave pix:\nChave: pixhmv@hmv.org.br\n\nValidade: ___/____/____\n\nApós o pagamento, por favor encaminhar o comprovante de pagamento para o e-mail duvidascontas@hmv.org.br, informando os dados abaixo:\n\nNome completo do pagante:\nCPF:\nNº do atendimento (conforme relatório analítico enviado):"},
+      {"t": "Pré ajuizamento", "c": "[Texto a ser definido]"},
+      {"t": "Pré terceirizada", "c": "Prezado(a) Senhor(a), _______________.\n\nA Associação Hospital Moinhos de Vento informa que o débito de R$ __________ vencido em ____/____/_____, referente ao atendimento nº _______________, já anteriormente comunicado.\n\nO caso será encaminhado à assessoria de cobrança terceirizada, podendo evoluir para medidas judiciais, além da incidência de encargos.\n\nSolicitamos regularização em até 48hs.\n\nEstamos à disposição para auxiliá-lo(a)."},
+      {"t": "Pós óbito", "c": "Prezado(a),\n\nReceba nossos sinceros sentimentos neste momento delicado. Sabemos que lidar com questões administrativas em meio a uma perda é algo sensível, e por isso prezamos por um contato respeitoso.\n\nEstamos entrando em contato para informar sobre uma despesa particular relacionada ao atendimento do(a) paciente realizado em nossa unidade. Em anexo, encaminhamos um relatório com a descrição detalhada dos itens e valores que não tiveram cobertura/foram negados pelo convênio.\n\nO pagamento pode ser realizado via PIX ou, se for mais conveniente, por meio de link para pagamento com cartão de crédito.\n\nEstamos à disposição para esclarecer qualquer dúvida.\n\nObs: Esta conversa poderá ser encerrada automaticamente em caso de inatividade. Se isso acontecer, você poderá entrar em contato novamente pelos canais abaixo:\n\nE-mail: duvidascontas@hmv.org.br\nTelefone: (51) 3314-3300 – Opções 4 > 7 > 1 (Atendimento de segunda a sexta, das 9h às 17h)"},
+      {"t": "Encerramento do contato", "c": "Vamos encerrar o atendimento por aqui, mas seguimos à disposição caso precise de algo. Você pode nos contatar pelos canais abaixo:\n\nE-mail: duvidascontas@hmv.org.br\nWhatsApp: (51) 3314-3434 (Atendimento de segunda a quinta, das 8h às 18h - sexta-feira das 8h às 17h)\nTelefone: (51) 3314-3300 – Opções 4 > 7 > 1 (Atendimento de segunda a sexta, das 9h às 17h)\n\nOBS: A partir de agora todos os pacientes com atendimentos particulares realizados no Hospital Moinhos de Vento desde 2025 passam a contar com uma nova funcionalidade no App Mais Moinhos, que permite o acesso de forma prática e segura, às contas analíticas, recibos e notas fiscais.\n\nSegue em anexo o folder explicativo."}
+    ],
+    "sn": 1
+  },
+  {
+    "id": "getnet", 
+    "t": "GetNet", 
+    "d": "Consultas e rotinas na GetNet", 
+    "o": "Padronizar as consultas e os tratamentos feitos no portal da GetNet.", 
+    "lk": "https://minhaconta.getnet.com.br/login",
+    "p": ["Entrar no site.", "Entrar com e-mail e senha.", "Clicar em LinkGetPay.", "Clicar em Novo link.", "Colocar a frase padrão: HMV ATENDIMENTO XXXXX + iniciais do nome."], 
+    "l": "", 
+    "sec": [
+      {"t": "Frase padrão", "cp": 1, "pa": ["HMV ATENDIMENTO XXXXX + iniciais do nome"]}, 
+      {"t": "Dados do estabelecimento", "tpl": "ASSOCIAÇÃO HOSPITALAR MOINHOS DE VENTO\nCNPJ: 92.685.833/0001-51\nCódigo do Estabelecimento (EC): 14864405"}
+    ], 
+    "np": 1
+  },
+  {"id": "effort", "t": "Abertura de chamados", "d": "Orientações para abrir chamados", "o": "", "p": [], "l": "", "sn": 1, "sec": [{"t": "Effort", "tx": "O WhatsApp ou o ramal 3562 fica restrito às situações de urgência.", "lk": "https://hmv.globalthings.net/"}, {"t": "Portal de TI", "tx": "Entrar no link abaixo com a senha do computador:", "lk": "http://portalti.hospitalmoinhos.org.br/index.php?noAUTO=1"}]},
+  {
+    "id": "formularios",
+    "t": "Formulários",
+    "d": "Formulários de solicitações diversas",
+    "o": "Acesso rápido a todos os formulários oficiais utilizados na rotina do setor.",
+    "p": [],
+    "l": "",
+    "sn": 1,
+    "sec": [
+      {"t": "Formulário de prorrogação de boletos", "lk": "https://docs.google.com/forms/d/e/1FAIpQLScuxHi-cAOawRTZbSnxIyXhRW3FGDjqJ2bS1jZptQnYus_UrA/viewform", "n": ["Pegar o nosso número na Valid.", "Clicar em “Carrinho”.", "Localizar o mês + nome do paciente.", "Buscar o boleto pelo clipe."]},
+      {"t": "Novo formulário PIX", "lk": "https://forms.gle/mCpRsXUokhxV44DM6"},
+      {"t": "Formulário de TED", "lk": "https://docs.google.com/forms/d/e/1FAIpQLScE59YICIDYP_tFHmGYoDXwXviW3vPKNMMXqOg98M1ul5YK6g/viewform"},
+      {"t": "Link de cancelamento de NF", "lk": "https://docs.google.com/forms/d/1W-QDw2ZM5jnVhxNQw5_dpfSxrxLEoWUgJ4sNnbjVk-I/viewform?edit_requested=true"},
+      {"t": "Formulário de estorno de cartão", "lk": "https://docs.google.com/forms/d/1v05-GQQwa5pKYQcAJmsWOpUc5_CMkN6vkLQhyjtRX_E/viewform?edit_requested=true"}
+    ]
+  },
+  {
+    "id": "ferramentas",
+    "t": "Ferramentas",
+    "d": "Links dos sistemas, controles e relatórios",
+    "o": "Acesso direto aos sistemas de cobrança, relatórios financeiros e planilhas de controle.",
+    "p": [],
+    "l": "",
+    "sn": 1,
+    "sec": [
+      {"t": "ORPEN - Cobrança", "lk": "https://orpenapp.hmv.org.br/rcx/Agent/"},
+      {"t": "MV Soul (ERP)", "lk": "http://soulerp.hmv.org.br/soul-mv/"},
+      {"t": "Serasa Gestão de Crédito", "lk": "https://gestao-credito.com.br/pos/"},
+      {"t": "Valid - Delivery Center", "lk": "https://deliverycenter.valid.com/login"},
+      {"t": "Site Cobrança HMV", "lk": "https://sites.google.com/hmv.org.br/cobrancaparticular/in%C3%ADcio"},
+      {"t": "Relatório de Quitações", "lk": "https://docs.google.com/spreadsheets/d/1dHZ7H2KiEsFBtfLmqCKo7kLxiWFg8Mg4QOX3uIHRh60/edit?gid=682988280#gid=682988280"},
+      {"t": "Link de solicitação de emissão de boletos", "lk": "https://docs.google.com/spreadsheets/d/1GgcKkjLMwfhb6uj6NZ9TAHj1m7qeow2oZ7XPoVR0iik/edit?gid=0#gid=0", "tx": "Acesse esta planilha, preencha as informações necessárias e não esqueça de registrar em evolução no MV."},
+      {"t": "Controle de Cancelamento", "lk": "https://docs.google.com/spreadsheets/d/1ZRme6ZlkVwmmjvR7ddel6_m7yRoh-s5WBWEK06dVflc/edit?gid=0#gid=0"},
+      {"t": "Cálculo de Parcelamento com Juros", "lk": "https://drive.google.com/file/d/1LOWNEEJqUPXdJUHOKpThOPGUgIgwYJic/view?ts=69e21d30"},
+      {"t": "Relatório de caixa", "lk": "https://drive.google.com/drive/folders/1OBDxQkO8AsmkeIFDgH2s9ZuuuOZpitiW"},
+      {"t": "Pasta de Rede: Termos de Ciência", "cp": 1, "pa": ["S:\\Area.Financeira\\Check out\\TERMOS DE CIÊNCIA"]}
+    ]
+  },
+  {"id": "lembretes", "t": "Lembretes", "d": "Avisos e pendências do setor", "o": "", "sn": 1, "p": [], "sec": [{"t": "Conceito", "l": ["Lembrete: vai vencer em 3 dias.", "Cobrança: vencido (5 dias anteriores)."]}, {"t": "Novo modelo", "tx": "Entrar na pasta do endereço abaixo e abrir o arquivo Excel.", "cp": 1, "pa": ["S:\\BI_Dados_Compartilhados\\Contas a Receber"]}, {"t": "Formatar da seguinte forma", "tb": {"h": ["Coluna", "O que fazer"], "r": [["X", "Valor: formatar."], ["BJ", "Tipo de documento (tem que ser nota fiscal)."], ["BT", "Excluir: C. DE IMAGEM; CHECK UP EXECUTIVO; CLINICA DE VACINAS; MAXPLAZA NÚCLEO DE VACINAS; TERESOPOLIS - CENTRO DA MEMÓRIA; zanol."], ["CA", "E-mail."], ["CF", "Telefone celular: formatar para (ESPECIAL) || Nº CEP."]]}}, {"t": "Sexta-feira", "tx": "Fazer também os dias do final de semana."}, {"t": "Verificações", "l": ["Olhar no e-mail: atendimento e nome.", "Atentar à Ouvidoria.", "Verificar se não é óbito.", "Verificar se a despesa não está quitada.", "Verificar se a despesa não está em 95.", "Lembrete: verificar se a data está com 3 dias subsequentes.", "Verificar se tem valor menor que 20 reais.", "Verificar evolução."]}, {"t": "Conferir se existe boleto gerado", "n": ["Na Valid, entrar na área de relatórios.", "Clicar no “carrinho” (consulta por envios).", "Buscar por nome do paciente e filtrar neste mês.", "Clicar no “olho” para confirmar se existe boleto gerado."]}, {"t": "Salvar a planilha", "tx": "Após pronto, salvar em uma nova planilha com o nome do arquivo:", "cp": 1, "pa": ["HMV_COBRANCA_27052025_001", "HMV_LEMBRETE_27052025_001"]}, {"t": "Excluir atendimentos", "tx": "Excluir os atendimentos que não vão receber cobrança/lembrete."}, {"t": "Atenção: fertilidade", "w": "Cuidar com a fertilidade: o vencimento tem que ser sempre dia 15 (R$ 120,00). Se não for neste vencimento, excluir a linha."}, {"t": "Zipar e enviar para a Valid", "n": ["Zipar o arquivo final (botão direito, compactar para, arquivo ZIP).", "Salvar o arquivo zipado no endereço abaixo.", "Entrar na Valid (gerenciar comunicação) e escolher Upload.", "Marca: Hospital Moinhos de Vento. Tipo de arquivo: Mailing.", "Publicar o arquivo zipado."], "cp": 1, "pa": ["S:\\Area.Financeira\\Dúvidas Contas\\VALID"]}]},
+  {"id": "checkout", "t": "Checkout", "d": "Problemas no pagamento do cliente e atendimento presencial", "o": "Informações sobre o atendimento presencial no Checkout.", "p": [], "l": "", "sn": 1, "sec": [
+    {"t": "Atendimento Presencial no Check-out", "tx": "O paciente pode realizar o pagamento presencialmente no Check-out do hospital.", "tb": {"h": ["Item", "Informação"], "r": [["Localização", "Térreo do Bloco C, ao lado das catracas de saída (Rua Ramiro Barcelos)"], ["Telefone", "(51) 3314-3002"], ["Horário de Seg. a Sex.", "08h às 19h"], ["Horário Finais de semana e Feriados", "08h às 18h"]]}},
+    {"t": "Site Checkout", "lk": "https://sites.google.com/hmv.org.br/site-30/in%C3%ADcio"}
+  ]},
+  {"id": "indicadores", "t": "Indicadores", "d": "Metas e acompanhamento do setor", "o": "", "p": [], "l": "", "sec": [{"t": "Dashboard", "tx": "Acessar o caminho abaixo:", "cp": 1, "pa": ["S:\\Area.Financeira\\Cobrança\\COBRANÇA PARTICULAR\\COBRANÇA ATIVA\\Dashboard"], "n": [{"t": "Copiar a planilha do mês.", "lk": "https://docs.google.com/spreadsheets/d/1dHZ7H2KiEsFBtfLmqCKo7kLxiWFg8Mg4QOX3uIHRh60/edit?gid=69221297#gid=69221297"}, "Salvar em cima do arquivo “Acompanhamento de performance”.", "Importar a planilha."]}], "sn": 1},
+  {"id": "pagamentos", "t": "Formas de pagamento e parcelamento", "d": "Prazos e tabela de parcelas", "o": "Consultar as formas de pagamento aceitas e as condições de parcelamento.", "p": [], "l": "", "sec": [{"t": "Formas de pagamento", "l": ["Dinheiro", "Por boleto", "Cartão de débito", "Por PIX", "Por TED", "Por link de cartão de crédito", "Por venda digitada", "Pagamento presencial no Checkout"]}, {"t": "Regra de Negociação", "w": "A primeira opção deve ser sempre o pagamento à vista. O parcelamento deve ser tratado durante a negociação caso seja solicitado pelo paciente. Sempre consultar a política atualizada antes de conceder descontos."}, {"t": "Por PIX", "tpl": "Prezado(a),\n\nSeguem os dados da chave pix:\nChave: pixhmv@hmv.org.br\nVencimento: __________\nValor R$ __________\n\nApós o pagamento, por favor encaminhar o comprovante de pagamento para o e-mail duvidascontas@hmv.org.br, informando o nome do paciente e os dados abaixo:\n\nNome completo do pagante:\nCPF:\nNº do atendimento (conforme relatório analítico enviado):"}, {"t": "Por TED", "tx": "Quando solicitarem pagamento por TED:", "lk": "https://docs.google.com/forms/d/e/1FAIpQLScE59YICIDYP_tFHmGYoDXwXviW3vPKNMMXqOg98M1ul5YK6g/viewform", "n": ["Entrar no link acima e fazer o preenchimento do formulário.", "Aguardar a resposta por e-mail.", "Quando chegarem as informações, enviar para o paciente.", "Mandar os dados e, quando receber o comprovante, fazer o formulário."]}, {"t": "Dados para TED", "tpl": "TED:\n\nASSOCIAÇÃO HOSPITALAR MOINHOS DE VENTO\nCNPJ: 92.685.833/0001-51\nBANCO: 001 - BANCO DO BRASIL\nAGÊNCIA: 3418-5\nCONTA CORRENTE: 154300-8\nCÓDIGO IDENTIFICADOR: 3.331-6\n\n(O código identificador deverá ser utilizado SOMENTE para transferência entre agências do Banco do Brasil)."}, {"t": "Por link de cartão de crédito", "tx": "Enviar ao cliente o link da GetNet:", "lk": "https://minhaconta.getnet.com.br/login"}, {"t": "Por venda digitada", "n": ["Digitar o valor na máquina.", "Escolher crédito ou débito.", "Se for crédito parcelado, escolher parcelado em loja.", "Informar o número de parcelas.", "Quando a máquina pedir para aproximar, digitar."]}, {"t": "Descontos e Regras de Cartão", "l": ["Parcelamento em até 8 vezes sem juros no cartão de crédito.", "Para parcelamentos em até 3 vezes, valor mínimo de R$ 250,00 por parcela.", "Para parcelamentos acima de 3 vezes (máximo 8x), valor mínimo de R$ 500,00 por parcela.", "Desconto de até 2% para pagamentos no cartão de débito, considerando os itens elegíveis conforme a política vigente.", "Desconto de 3% para pagamentos via Pix, considerando os itens elegíveis conforme a política vigente.", "Não serão mais aceitos pagamentos por meio de cheque."]}, {"t": "Simulador / Tabela de Parcelamento", "calc": 1}]},
+  {
+    "id": "politicas",
+    "t": "Políticas do financeiro",
+    "d": "Regras e documentos oficiais que valem para o setor",
+    "o": "Acesso rápido ao portal de políticas e normas institucionais.",
+    "lk": "https://portaldocolaborador.hmv.org.br/",
+    "p": [
+      "Acessar o Portal do Colaborador pelo link acima.",
+      "Ir na opção Gestão de Sistemas.",
+      "Acessar o Sistema de Documentos.",
+      "Pesquisar pelo número da política desejada."
+    ],
+    "sec": [
+      {
+        "t": "Principais políticas do setor",
+        "cp": 1,
+        "pa": [
+          "POL. 00166 - POLÍTICA DE COBRANÇA DE PACIENTES PARTICULARES - UNIDADES EXTERNAS",
+          "POL. 00028 - POLÍTICA DE COBRANÇA E PARCELAMENTO DE CONTA DE PACIENTES PARTICULARES - INTERNAÇÃO",
+          "POL. 00034 - POLÍTICA DE COBRANÇA E PARCELAMENTO DE CONTA DE PACIENTES PARTICULARES - AMBULATORIAL",
+          "POL. 00030 - POLÍTICA DE ALÇADA DE APROVAÇÃO"
+        ]
+      }
+    ],
+    "np": 1
+  },
+  {
+    "id": "contatos",
+    "t": "Contatos diretos",
+    "d": "Quem procurar para cada assunto",
+    "o": "Encontrar rapidamente a pessoa certa para cada assunto.",
+    "p": [],
+    "l": "",
+    "bs": 1,
+    "sec": [
+      {
+        "t": "Canais do setor Dúvidas Contas",
+        "tb": {
+          "h": ["Canal / Integrante", "Contato / Ramal", "Atendimento / Função"],
+          "r": [
+            ["E-mail Geral", "duvidascontas@hmv.org.br", "Dúvidas gerais de cobrança"],
+            ["WhatsApp Geral", "(51) 3314-3434", "Opções 3 (Informações) > 5 (Dúvidas Contas Paciente)"],
+            ["Telefone Geral", "(51) 3314-3300", "Opções 4 > 7 > 1 (segunda a sexta, das 9h às 17h)"],
+            ["Suporte e Atendimento Interno", "Ramal Interno / Telefone do Setor", "Atendimento, e-mails, dúvidas e cobrança (William, Nara, Carolaine)"],
+            ["Cristiana Pilon", "Ramal 3179", "Analista (Contas > 10k e Status 95)"]
+          ]
+        }
+      },
+      {
+        "t": "Cobrança terceirizada",
+        "tb": {
+          "h": ["Empresa", "Telefone", "E-mail / WhatsApp"],
+          "r": [
+            ["Angeza", "(51) 3316-4200", "-"],
+            ["Métrica", "(51) 3123-0881", "WhatsApp: (51) 98210-9541 | E-mail: comercial@metricacob.com.br / eduarda@metricacob.com.br"],
+            ["Cobrance Serviços Administrativos", "(51) 3275-2000", "Av. Diário de Notícias, 400, 4º andar, Porto Alegre/RS, CEP 90.810-080"]
+          ]
+        }
+      },
+      {
+        "t": "Jurídico (em ajuizamento)",
+        "tb": {
+          "h": ["Escritório / Contato", "Telefone", "E-mail"],
+          "r": [
+            ["Andrade Maia", "(51) 3227-3455", "nucleohmv@andrademaia.com"],
+            ["Hackmann", "(51) 3328-1286", "-"],
+            ["Contato interno do HMV para o jurídico", "Ramal 3140", "Bruno Ramalho Pedreschi <bruno.pedreschi@hmv.org.br>"]
+          ]
+        }
+      },
+      {
+        "t": "Financeiro e pagamentos",
+        "tb": {
+          "h": ["Setor", "Telefone / Ramal", "Observação / E-mail"],
+          "r": [
+            ["Checkout", "3314-3002", "Pagamento presencial: térreo, Bloco C, a nível da Rua Ramiro Barcelos."],
+            ["Contas a pagar (títulos do hospital)", "3314-3557 / 3314-3412", "-"],
+            ["Tesouraria", "Ramais 3412 ou 3557", "-"],
+            ["Honorários médicos", "3314-3200", "Somente para secretárias e médicos."],
+            ["Financeiro pesquisa (Taina)", "Ramal 3209", "taina.sdias@hmv.org.br"],
+            ["Financeiro Faculdade Moinhos", "(51) 3314-3582", "financeiro.iep+noreply@hmv.org.br"],
+            ["PROADI", "3537-8570", "-"]
+          ]
+        }
+      },
+      {
+        "t": "Atendimento ao paciente e áreas de apoio",
+        "tb": {
+          "h": ["Setor", "Telefone / Ramal", "Observação / E-mail"],
+          "r": [
+            ["Ouvidoria", "(51) 3314-3720", "ouvidoria@hmv.org.br. Presencial: seg a sex (8h-19h), sáb (8h-13h / 14h-16h)"],
+            ["Orçamentos", "3314-2808", "orcamentos@hmv.org.br"],
+            ["Autorizações (Rayssa Pescador)", "3314-2899", "Pode passar para convênio."],
+            ["Autorizações Pós", "-", "autorizacoespos.cc@hmv.org.br"],
+            ["Autorizações Prévias Cirúrgicas", "-", "autorizacoespreviascirurgicas@hmv.org.br"],
+            ["Check-in (central de leitos)", "Ramais 3528 / 3529", "-"],
+            ["Plantão ADM", "3728-8760", "Finais de semana e feriado. Preferencialmente ir até o quarto conversar."],
+            ["SAME (Serviço de Arquivo Médico)", "3314-3045", "Entrega de prontuários. Das 8h às 18h. Não trabalha nos finais de semana."],
+            ["Safe Park (estacionamento)", "98121-9942", "Diulia: diulia.goncalves@hmv.org.br"],
+            ["Iguatemi", "(51) 3327-7174", "Aline Regina Belloni de Oliveira <aline.belloni@hmv.org.br>"],
+            ["Compras", "-", "recepcao.compras@hmv.org.br"],
+            ["Secretaria da superintendência (M. Modesti)", "3314-3661", "-"]
+          ]
+        }
+      },
+      {
+        "t": "Ramais internos por área",
+        "tb": {
+          "h": ["Área / Nome", "Ramal / Telefone"],
+          "r": [
+            ["--- DÚVIDAS CONTAS ---", ""],
+            ["Cristiana Pilon", "3179"],
+            ["William Tessari", "3262"],
+            ["Nara Farias", "3179"],
+            ["--- LIDERANÇAS E EQUIPE ---", ""],
+            ["Eduardo Miranda", "3673"],
+            ["Alexandre Silva", "5060"],
+            ["Aline Homem", "3595"],
+            ["Aline Munhoz", "8945"],
+            ["Andrea Kuns", "8095"],
+            ["Andrea Quilante", "3599"],
+            ["Cristiane Quaresma", "3786"],
+            ["Gabrielle Marques", "3053"],
+            ["Karina Fagundes", "8499"],
+            ["Sabrina Carvalho", "8775"],
+            ["Sofia Sartini", "3314-3784 / 3314-3718"],
+            ["Thamyrys Teixeira", "2984"],
+            ["Viviana Fraga", "3374"],
+            ["--- LABORATÓRIOS E EXAMES ---", ""],
+            ["Cardiologia", "3314-2992 / 3314-4019"],
+            ["Patologia", "8664 / 8669"],
+            ["Radiologia", "3611 (Ana / André / Ana Felizardo)"],
+            ["Weinmann (laboratório)", "3073 / 5153 (Pacientes: 3314-3838)"],
+            ["Pedidos / Resultados de Exames (Geral)", "digitacao.geral@hmv.org.br"],
+            ["Senha Portal do Paciente / Imagem", "(51) 3314-3326 / 3314-3388"],
+            ["Exames Patologia Moinhos", "(51) 3537-8664 / 3314-8669"],
+            ["Exames de Sangue (Weinmann)", "(51) 3314-3838 / (51) 4004-3080"],
+            ["Exames Cardiológicos", "(51) 3314-2921"],
+            ["--- OUTROS RAMAIS ---", ""],
+            ["Effort", "3562"],
+            ["Prefixo 3537", "3537 + ramal (para iniciados em 8)"],
+            ["SAP", "2879"]
+          ]
+        }
+      },
+      {
+        "t": "Telefone: captura e transferência",
+        "tb": {
+          "h": ["Função", "Como fazer"],
+          "r": [
+            ["Captura", "Tirar do gancho e digitar *8 (puxa a ligação)."],
+            ["Transferência cega", "#1 seguido da digitação rápida do ramal de destino. A ligação vai direto ao destino; se o número rejeitar a transferência, a ligação não é completada."],
+            ["Transferência assistida", "#2 seguido da digitação rápida do ramal de destino. O cliente fica em fila de espera, com a música padrão, e você aguarda junto: escuta o destino tocando e, se atenderem, pode falar com a pessoa antes de escolher o que fazer."]
+          ]
+        }
+      },
+      {
+        "t": "Telefone: desvio de chamadas",
+        "tb": {
+          "h": ["Código", "Função"],
+          "r": [
+            ["#5", "Acessa o menu com as opções de desvio."],
+            ["#51", "Acessa o menu para criar ou alterar o desvio."],
+            ["#51XXXX", "Ativa o desvio para o ramal XXXX. Tirar do gancho depois de digitar."],
+            ["#52", "Consulta e informa se há desvio para o ramal."],
+            ["#53", "Remove o desvio para o ramal."]
+          ]
+        }
+      }
+    ],
+    "np": 1
+  },
+  {
+    "id": "liderancas",
+    "t": "Lideranças",
+    "d": "Contatos e ramais da gestão por área",
+    "o": "Lista completa de coordenações, lideranças e e-mails de contato organizados por setor.",
+    "p": [],
+    "l": "",
+    "bs": 1,
+    "sec": [
+      {
+        "t": "Operações",
+        "tb": {
+          "h": ["Cargo / Função", "Nome", "E-mail", "Ramal / Telefone"],
+          "r": [
+            ["Coordenadora", "Luciana Scarrone (Bloco B)", "luciana.scarrone@hmv.org.br", "(51) 3314-38026 / (51) 3537-8861"],
+            ["Liderança", "Ana Rodrigues", "ana.rodrigues@hmv.org.br", "-"],
+            ["Liderança", "Jaqueline Araujo", "jaqueline.araujo@hmv.org.br", "-"]
+          ]
+        }
+      },
+      {
+        "t": "Internação - SAP",
+        "tb": {
+          "h": ["Cargo / Função", "Nome", "E-mail", "Ramal / Telefone"],
+          "r": [
+            ["Coordenadora", "Cristiane Chaves", "cristiane.chaves@hmv.org.br", "Ramal 3164"],
+            ["Liderança", "Allan Michels", "allan.michels@hmv.org.br", "(51) 3537-8760"],
+            ["Liderança", "Andressa da Rosa", "andressa.rosa@hmv.org.br", "(51) 3537-8760"]
+          ]
+        }
+      },
+      {
+        "t": "Emergência",
+        "tb": {
+          "h": ["Cargo / Função", "Nome", "E-mail", "Ramal / Telefone"],
+          "r": [
+            ["Coordenação", "Thais Rocha", "thais.rocha@hmv.org.br", "(51) 3314-3713"],
+            ["Liderança", "Andre Gusmao", "andre.gusmao@hmv.org.br", "(51) 3537-8568"]
+          ]
+        }
+      },
+      {
+        "t": "CDI - Radiologia / Tomografia / Ressonância",
+        "tb": {
+          "h": ["Cargo / Função", "Nome", "E-mail", "Ramal / Telefone"],
+          "r": [
+            ["Coordenação", "Yael Pinho", "yael.pinho@hmv.org.br", "(51) 3314-2927"],
+            ["Liderança", "Fabiana Ocanha", "fabiana.ocanha@hmv.org.br", "(51) 3314-3787 / (51) 3537-8715"],
+            ["Liderança", "Amanda Canquerine", "amanda.canquerine@hmv.org.br", "(51) 3314-3787 / (51) 3537-8715"],
+            ["Apoio", "Andre Amauri", "andre.castro@hmv.org.br", "Ramal 3688"],
+            ["Apoio", "Ana Felizardo", "ana.felizardo@hmv.org.br", "Ramal 3688"]
+          ]
+        }
+      },
+      {
+        "t": "Patologia",
+        "tb": {
+          "h": ["Cargo / Função", "Nome", "E-mail", "Ramal / Telefone"],
+          "r": [
+            ["Supervisão", "Priscila Malta", "priscila.lima@hmv.org.br", "-"],
+            ["Coordenação Assistencial", "Tiago Andreis", "tiago.andreis@hmv.org.br", "(51) 3537-8675 / (51) 3537-8676"],
+            ["Apoio", "Manuela Roldao", "manuela.roldao@hmv.org.br", "-"],
+            ["Apoio", "Lilian Leimann", "lilian.leimann@hmv.org.br", "-"]
+          ]
+        }
+      },
+      {
+        "t": "Unidades Externas (Pontal e Iguatemi)",
+        "tb": {
+          "h": ["Cargo / Função", "Nome", "E-mail", "Ramal / Telefone"],
+          "r": [
+            ["Coordenação", "Essara Campesato Fontes", "essara.fontes@hmv.org.br", "(51) 3327-7062"],
+            ["Liderança / Contato Iguatemi", "Aline Regina Belloni de Oliveira", "aline.belloni@hmv.org.br", "(51) 3327-7174"],
+            ["Liderança", "Maria Fabiane Lippert", "maria.lippert@hmv.org.br", "-"]
+          ]
+        }
+      }
+    ],
+    "np": 1
+  },
+  {"id": "extratos", "t": "Extratos bancários", "d": "Como obter e conferir extratos", "o": "", "sn": 1, "p": ["Acessar o link indicado.", "Selecionar o mês.", "Acessar o extrato desejado."], "inf": "O extrato bancário permite a conferência do crédito na conta do Bradesco do HMV. A planilha em Excel que sempre acompanha o extrato indica quem foi o pagante do PIX.", "lk": "https://drive.google.com/drive/folders/14ts4KASUCC0PIRrQjvVezHlHLpS0D221"}
+];
+
+var main = document.getElementById("main");
+var breadcrumb = document.getElementById("breadcrumb");
+var breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
+var cur = 0;
+var sub = -1;
+
+function esc(s) {
+  if (!s) return "";
+  var d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function getItemById(id) {
+  for (var i = 0; i < T.length; i++) {
+    if (T[i].id === id) return { item: T[i], index: i };
+  }
+  return { item: T[0], index: 0 };
+}
+
+function norm(t) {
+  return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function realizarBuscaGlobal(query) {
+  var q = norm(query.trim());
+  if (!q) return [];
+  
+  var resultados = [];
+
+  for (var i = 1; i < T.length; i++) {
+    var item = T[i];
+    var icon = SECTION_ICONS[item.id] || "fa-folder";
+
+    if (norm(item.t).indexOf(q) > -1 || norm(item.d).indexOf(q) > -1 || norm(item.o).indexOf(q) > -1) {
+      resultados.push({ itemIndex: i, subIndex: -1, pasta: item.t, titulo: item.t, trecho: item.d || item.o, icon: icon });
+    }
+
+    (item.sec || []).forEach(function(sec) {
+      var textoSec = (sec.t || "") + " " + (sec.tx || "") + " " + (sec.lk || "");
+      if (sec.l) textoSec += " " + sec.l.join(" ");
+      if (sec.p) textoSec += " " + sec.p.join(" ");
+      if (sec.pa) textoSec += " " + sec.pa.join(" ");
+      if (sec.tb) {
+        textoSec += " " + sec.tb.h.join(" ");
+        sec.tb.r.forEach(function(row) { textoSec += " " + row.join(" "); });
+      }
+
+      if (norm(textoSec).indexOf(q) > -1) {
+        resultados.push({
+          itemIndex: i,
+          subIndex: -1,
+          pasta: item.t,
+          titulo: sec.t || item.t,
+          trecho: sec.tx || sec.lk || "Conteúdo localizado dentro da seção.",
+          icon: icon
+        });
+      }
+    });
+
+    (item.sub || []).forEach(function(subItem, sIdx) {
+      if (norm(subItem.t).indexOf(q) > -1 || norm(subItem.c).indexOf(q) > -1) {
+        resultados.push({
+          itemIndex: i,
+          subIndex: sIdx,
+          pasta: item.t + " > Modelos de Texto",
+          titulo: subItem.t,
+          trecho: subItem.c.substring(0, 90) + "...",
+          icon: icon
+        });
+      }
+    });
+  }
+
+  return resultados;
+}
+
+function show() {
+  var x = T[cur];
+  var h = "";
+
+  if (cur === 0) {
+    breadcrumb.classList.add("hidden");
+
+    h += `
+      <div class="mb-8 relative max-w-2xl mx-auto">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-blue-500 text-base"></i>
+          <input type="search" id="globalSearchInput" autocomplete="off" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-blue-500/30 bg-[var(--card-bg)] text-sm text-[var(--text-main)] placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm" placeholder="O que você está procurando? (Ex: Pix, Boleto, Óbito, Effort...)">
+        </div>
+        <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl shadow-xl z-50 overflow-hidden max-h-96 overflow-y-auto divide-y divide-[var(--border-color)]">
+        </div>
+      </div>
+    `;
+
+    CATEGORIES.forEach(function(cat) {
+      h += `
+        <div class="mb-8">
+          <div class="bg-[var(--card-bg)] px-5 py-3 rounded-lg border border-[var(--border-color)] shadow-sm mb-4">
+            <h2 class="text-base font-bold text-[var(--text-main)] uppercase tracking-wide flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> ${esc(cat.categoryTitle)}
+            </h2>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+      `;
+
+      cat.items.forEach(function(itemId) {
+        var res = getItemById(itemId);
+        var item = res.item;
+        var i = res.index;
+        var icon = SECTION_ICONS[item.id] || "fa-folder";
+
+        h += `
+          <button type="button" data-i="${i}" class="group px-3 py-3 rounded-md bg-[var(--btn-bg)] hover:bg-[var(--btn-hover)] text-[var(--btn-text)] font-semibold text-xs transition-all shadow-sm hover:shadow text-center flex flex-col items-center justify-center gap-1.5 min-h-[64px] border border-black/5 dark:border-white/5">
+            <i class="fa-solid ${icon} text-sm opacity-80 group-hover:scale-110 transition-transform"></i>
+            <span class="line-clamp-2 leading-tight">${esc(item.t)}</span>
+          </button>
+        `;
+      });
+
+      h += `</div></div>`;
+    });
+
+  } else {
+    breadcrumb.classList.remove("hidden");
+    breadcrumbCurrent.textContent = x.t;
+
+    var backBtn = (x.sub && sub >= 0)
+      ? `<button type="button" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-semibold text-[var(--text-main)] hover:text-blue-500 transition-all mb-4" data-s="-1"><i class="fa-solid fa-arrow-left"></i> Voltar</button>`
+      : `<button type="button" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-semibold text-[var(--text-main)] hover:text-blue-500 transition-all mb-4" data-i="0"><i class="fa-solid fa-arrow-left"></i> Voltar ao Início</button>`;
+
+    var icon = SECTION_ICONS[x.id] || "fa-file-lines";
+
+    h = `
+      <div class="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-6 sm:p-8 shadow-sm">
+        ${backBtn}
+        <div class="flex items-center gap-3 mb-4 border-b border-[var(--border-color)] pb-4">
+          <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg">
+            <i class="fa-solid ${icon}"></i>
+          </div>
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-main)]">${esc(x.t)}</h2>
+            ${x.o ? `<p class="text-xs sm:text-sm text-[var(--text-muted)] mt-0.5">${esc(x.o)}</p>` : ''}
+          </div>
+        </div>
+    `;
+
+    if (x.bs) {
+      h += `
+        <div class="my-5 relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm"></i>
+          <input type="search" id="bsq" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-main)] text-sm text-[var(--text-main)] focus:outline-none focus:border-blue-500 transition-all" placeholder="Buscar contato..." aria-label="Buscar contato">
+        </div>
+      `;
+    }
+
+    if (x.inf) {
+      h += `
+        <div class="my-4 p-4 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-900 dark:text-sky-200 text-sm flex gap-3 items-start">
+          <i class="fa-solid fa-circle-info text-sky-500 mt-0.5 text-base"></i>
+          <div><b class="font-semibold block mb-0.5">Informação Importante:</b> ${esc(x.inf)}</div>
+        </div>
+      `;
+    }
+
+    if (x.lk) {
+      h += `
+        <div class="my-4 p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)]">
+          <h3 class="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] mb-2">Acesso Rápido</h3>
+          <div class="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+            <a href="${esc(x.lk)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium break-all flex items-center gap-1.5">
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i> ${esc(x.lk)}
+            </a>
+            <button type="button" class="cp inline-flex items-center gap-1.5 px-3 py-1 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)] text-xs text-[var(--text-main)] hover:border-blue-500 transition-all sm:ml-auto">
+              <i class="fa-regular fa-copy"></i> Copiar Link
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    if (x.p && x.p.length > 0) {
+      h += `
+        <div class="my-6">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">${esc(x.l || "Passo a passo")}</h3>
+          <ol class="space-y-2">
+      `;
+      x.p.forEach(function(s, idxStep) {
+        h += `
+          <li class="flex items-start gap-3 p-3 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-sm">
+            <span class="w-5 h-5 rounded-full bg-blue-600 text-white font-semibold text-xs flex items-center justify-center shrink-0 mt-0.5">${idxStep + 1}</span>
+            <span class="text-[var(--text-main)]">${esc(s)}</span>
+          </li>
+        `;
+      });
+      h += `</ol></div>`;
+    }
+
+    (x.sec || []).forEach(function(c) {
+      h += `<div class="sc my-6 pt-4 border-t border-[var(--border-color)] first:border-0 first:pt-0">`;
+      if (c.t) h += `<h3 class="text-base font-semibold text-[var(--text-main)] mb-2 flex items-center gap-2"><i class="fa-solid fa-angle-right text-blue-500 text-xs"></i> ${esc(c.t)}</h3>`;
+      if (c.tx) h += `<p class="text-sm text-[var(--text-muted)] mb-3 leading-relaxed">${esc(c.tx)}</p>`;
+
+      if (c.lk) {
+        h += `
+          <div class="my-3 p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)]">
+            <div class="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+              <a href="${esc(c.lk)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium break-all flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i> ${esc(c.lk)}
+              </a>
+              <button type="button" class="cp inline-flex items-center gap-1.5 px-3 py-1 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)] text-xs text-[var(--text-main)] hover:border-blue-500 transition-all sm:ml-auto">
+                <i class="fa-regular fa-copy"></i> Copiar Link
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      if (c.tpl) {
+        h += `
+          <div class="relative group my-3">
+            <pre class="whitespace-pre-wrap font-sans text-sm p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] leading-relaxed">${esc(c.tpl)}</pre>
+            <button type="button" class="cp absolute top-3 right-3 px-3 py-1.5 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-medium text-[var(--text-main)] hover:border-blue-500 transition-all">
+              <i class="fa-regular fa-copy"></i> Copiar Texto
+            </button>
+          </div>
+        `;
+      }
+
+      if (c.calc) {
+        h += `
+          <div class="p-5 rounded-xl border border-blue-500/30 bg-blue-50/20 dark:bg-blue-900/10 my-4 max-w-2xl">
+            <p class="text-xs font-bold text-[var(--text-main)] mb-3 uppercase tracking-wide">Preencher somente com o valor a ser parcelado:</p>
+            <div class="relative max-w-xs mb-5">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-semibold text-[var(--text-muted)]">R$</span>
+              <input type="text" id="cv" inputmode="decimal" placeholder="0,00" autocomplete="off" class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] text-base font-bold text-[var(--text-main)] focus:outline-none focus:border-blue-500 transition-all" value="584,00">
+            </div>
+            <div id="cr" aria-live="polite" class="mt-3"></div>
+          </div>
+        `;
+      }
+
+      if (c.w) {
+        h += `
+          <div class="my-3 p-3.5 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-900 dark:text-sky-200 text-sm flex items-start gap-2.5">
+            <i class="fa-solid fa-note-sticky text-sky-500 mt-0.5"></i>
+            <div>${esc(c.w)}</div>
+          </div>
+        `;
+      }
+
+      (c.pa || []).forEach(function(p) {
+        if (c.cp) {
+          h += `
+            <div class="my-2 flex items-center justify-between gap-3 p-3 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] font-mono text-xs">
+              <span class="break-all text-[var(--text-main)]">${esc(p)}</span>
+              <button type="button" class="cp px-3 py-1 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-sans text-[var(--text-main)] hover:border-blue-500 transition-all shrink-0">
+                <i class="fa-regular fa-copy"></i> Copiar
+              </button>
+            </div>
+          `;
+        } else {
+          h += `<div class="my-2 p-3 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-sm">${esc(p)}</div>`;
+        }
+      });
+
+      if (c.l) {
+        h += `<ul class="space-y-1.5 my-3 pl-2">`;
+        c.l.forEach(function(itemLi) {
+          h += `<li class="text-sm text-[var(--text-main)] flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-blue-500 mt-2"></i> ${esc(itemLi)}</li>`;
+        });
+        h += `</ul>`;
+      }
+
+      if (c.n) {
+        h += `<ol class="space-y-2 my-3">`;
+        c.n.forEach(function(i, nIdx) {
+          if (typeof i === 'object') {
+            h += `
+              <li class="p-3 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-sm">
+                <div>${esc(i.t)}</div>
+                <div class="mt-2 flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                  <a href="${esc(i.lk)}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline text-xs break-all"><i class="fa-solid fa-external-link"></i> ${esc(i.lk)}</a>
+                  <button type="button" class="cp px-2.5 py-1 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)] text-xs text-[var(--text-main)] hover:border-blue-500 transition-all sm:ml-auto">Copiar</button>
+                </div>
+              </li>
+            `;
+          } else {
+            h += `<li class="p-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-sm flex gap-2"><b class="text-blue-600 dark:text-blue-400">${nIdx+1}.</b> ${esc(i)}</li>`;
+          }
+        });
+        h += `</ol>`;
+      }
+
+      if (c.tb) {
+        h += `
+          <div class="overflow-x-auto rounded-lg border border-[var(--border-color)] my-3">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="bg-blue-500/10 text-[var(--text-main)] border-b border-[var(--border-color)]">
+        `;
+        c.tb.h.forEach(function(th) {
+          h += `<th class="p-3 font-semibold">${esc(th)}</th>`;
+        });
+        h += `</tr></thead><tbody class="divide-y divide-[var(--border-color)]">`;
+        c.tb.r.forEach(function(row) {
+          h += `<tr class="hover:bg-[var(--bg-main)]/50 transition-colors">`;
+          row.forEach(function(td) {
+            h += `<td class="p-3 text-[var(--text-main)]">${esc(td)}</td>`;
+          });
+          h += `</tr>`;
+        });
+        h += `</tbody></table></div>`;
+      }
+
+      h += `</div>`;
+    });
+
+    if (x.sub) {
+      if (sub < 0) {
+        h += `
+          <div class="mt-6">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">Escolha o modelo desejado</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        `;
+        x.sub.forEach(function(m, k) {
+          h += `
+            <button type="button" data-s="${k}" class="p-4 text-left rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] hover:border-blue-500 text-sm font-semibold text-[var(--text-main)] transition-all flex items-center justify-between shadow-sm">
+              <span>${esc(m.t)}</span>
+              <i class="fa-solid fa-chevron-right text-xs opacity-50"></i>
+            </button>
+          `;
+        });
+        h += `</div></div>`;
+      } else {
+        var m = x.sub[sub];
+        h += `
+          <div class="mt-4">
+            <h3 class="text-lg font-bold text-[var(--text-main)] mb-3">${esc(m.t)}</h3>
+            <div class="relative group">
+              <pre class="whitespace-pre-wrap font-sans text-sm p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] leading-relaxed">${esc(m.c)}</pre>
+              <button type="button" class="cp mt-3 sm:mt-0 sm:absolute sm:top-3 sm:right-3 px-4 py-2 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-semibold text-[var(--text-main)] hover:border-blue-500 transition-all shadow-sm flex items-center gap-1.5">
+                <i class="fa-regular fa-copy"></i> Copiar mensagem
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    h += `</div>`;
+  }
+
+  main.innerHTML = h;
+
+  var globalSearchInput = document.getElementById("globalSearchInput");
+  var searchResultsDropdown = document.getElementById("searchResultsDropdown");
+
+  if (globalSearchInput && searchResultsDropdown) {
+    globalSearchInput.oninput = function() {
+      var query = this.value;
+      var res = realizarBuscaGlobal(query);
+
+      if (res.length === 0) {
+        searchResultsDropdown.classList.add("hidden");
+        searchResultsDropdown.innerHTML = "";
+        return;
+      }
+
+      var dropHtml = "";
+      res.forEach(function(r) {
+        dropHtml += `
+          <button type="button" data-target-i="${r.itemIndex}" data-target-s="${r.subIndex}" class="w-full text-left p-3.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all flex items-start gap-3 group">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
+              <i class="fa-solid ${r.icon} text-sm"></i>
+            </div>
+            <div class="overflow-hidden">
+              <div class="text-[11px] font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">${esc(r.pasta)}</div>
+              <div class="text-sm font-bold text-[var(--text-main)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">${esc(r.titulo)}</div>
+              <div class="text-xs text-[var(--text-muted)] line-clamp-1 mt-0.5">${esc(r.trecho)}</div>
+            </div>
+          </button>
+        `;
+      });
+
+      searchResultsDropdown.innerHTML = dropHtml;
+      searchResultsDropdown.classList.remove("hidden");
+
+      var searchBtns = searchResultsDropdown.querySelectorAll("[data-target-i]");
+      for (var b = 0; b < searchBtns.length; b++) {
+        searchBtns[b].onclick = function() {
+          var targetI = +this.getAttribute("data-target-i");
+          var targetS = +this.getAttribute("data-target-s");
+          
+          cur = targetI;
+          sub = targetS;
+          show();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      }
+    };
+
+    document.onclick = function(e) {
+      if (!globalSearchInput.contains(e.target) && !searchResultsDropdown.contains(e.target)) {
+        searchResultsDropdown.classList.add("hidden");
+      }
+    };
+  }
+
+  var navBtns = main.querySelectorAll("[data-i]");
+  for (var k = 0; k < navBtns.length; k++) {
+    navBtns[k].onclick = function() {
+      go(+this.getAttribute("data-i"), true);
+    };
+  }
+
+  var subBtns = main.querySelectorAll("[data-s]");
+  for (var m2 = 0; m2 < subBtns.length; m2++) {
+    subBtns[m2].onclick = function() {
+      sub = +this.getAttribute("data-s");
+      show();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  }
+
+  var copyBtns = main.querySelectorAll(".cp");
+  for (var j = 0; j < copyBtns.length; j++) {
+    copyBtns[j].onclick = function() {
+      copiar(this);
+    };
+  }
+
+  var bq = document.getElementById("bsq");
+  if (bq) {
+    bq.oninput = function() {
+      var q = norm(bq.value.trim());
+      var scs = main.querySelectorAll(".sc");
+
+      for (var z = 0; z < scs.length; z++) {
+        var sc = scs[z];
+        var rows = sc.querySelectorAll("tbody tr");
+        var h3 = sc.querySelector("h3");
+        var tm = q && h3 && norm(h3.textContent).indexOf(q) > -1;
+
+        if (rows.length) {
+          var any = false;
+          for (var w = 0; w < rows.length; w++) {
+            var ok2 = !q || tm || norm(rows[w].textContent).indexOf(q) > -1;
+            rows[w].style.display = ok2 ? "" : "none";
+            if (ok2) any = true;
+          }
+          sc.style.display = any ? "" : "none";
+        } else {
+          sc.style.display = (!q || norm(sc.textContent).indexOf(q) > -1) ? "" : "none";
+        }
+      }
+    };
+  }
+
+  var cv = document.getElementById("cv");
+  if (cv) {
+        var calcularTabela = function() {
+      var r = document.getElementById("cr");
+      var t = String(cv.value).trim();
+      if (t.indexOf(",") > -1) t = t.replace(/\./g, "").replace(",", ".");
+      var v = parseFloat(t);
+
+      if (!(v > 0)) {
+        r.innerHTML = "";
+        return;
+      }
+
+      var fmt = function(n) {
+        return n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      };
+
+      // Coeficientes para parcelamento com juros (quando fora da política)
+      var coeficientesComJuros = {
+        1: 1.0,
+        2: 1.020000,
+        3: 1.030000,
+        4: 1.037774,
+        5: 1.045445,
+        6: 1.071147,
+        7: 1.081575,
+        8: 1.115736,
+        9: 1.129110,
+        10: 1.172312
+      };
+
+      var h2 = `
+        <div class="overflow-x-auto rounded-lg border border-[var(--border-color)] shadow-sm max-w-2xl bg-[var(--card-bg)]">
+          <table class="w-full text-center text-sm border-collapse">
+            <thead>
+              <tr class="bg-blue-500/10 text-[var(--text-main)] font-bold border-b border-[var(--border-color)]">
+                <th class="p-2.5 border-r border-[var(--border-color)] w-14">PARC.</th>
+                <th class="p-2.5 border-r border-[var(--border-color)]">VALOR PARCELA</th>
+                <th class="p-2.5 border-r border-[var(--border-color)]">TOTAL</th>
+                <th class="p-2.5">STATUS / REGRA</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border-color)] font-medium">
+      `;
+
+      for (var n = 1; n <= 10; n++) {
+        var parcelaBruta = v / n;
+        var dentroPolitica = true;
+        var motivo = "";
+
+        // Regras da Política HMV:
+        // - Até 8x no cartão.
+        // - 1x a 3x: valor mínimo R$ 250,00 por parcela.
+        // - 4x a 8x: valor mínimo R$ 500,00 por parcela.
+        // - Acima de 8x: fora da política.
+        if (n <= 3) {
+          if (parcelaBruta < 250) {
+            dentroPolitica = false;
+            motivo = "Mínimo R$ 250,00 por parcela";
+          }
+        } else if (n <= 8) {
+          if (parcelaBruta < 500) {
+            dentroPolitica = false;
+            motivo = "Mínimo R$ 500,00 por parcela";
+          }
+        } else {
+          dentroPolitica = false;
+          motivo = "Máximo 8x na política";
+        }
+
+        // Se estiver dentro da política e até 8x => sem juros (coef = 1.0).
+        // Se estiver fora da política => aplica juros (coeficiente com juros).
+        var coef = dentroPolitica ? 1.0 : coeficientesComJuros[n];
+        var total = v * coef;
+        var parcela = total / n;
+
+        var tagStatus = "";
+        var rowBg = "";
+
+        if (dentroPolitica) {
+          rowBg = "hover:bg-emerald-500/10 text-[var(--text-main)]";
+          tagStatus = `<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded"><i class="fa-solid fa-circle-check text-[10px]"></i> Sem juros</span>`;
+        } else {
+          rowBg = "hover:bg-amber-500/10 text-[var(--text-main)]";
+          var txtJuros = coef > 1.0 ? "Com juros" : "Sem juros";
+          tagStatus = `<span class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/15 px-2 py-0.5 rounded" title="${motivo}"><i class="fa-solid fa-triangle-exclamation text-[10px]"></i> Fora da política (${txtJuros})</span>`;
+        }
+
+        h2 += `
+          <tr class="${rowBg} transition-colors">
+            <td class="p-2.5 border-r border-[var(--border-color)] font-bold">${n}X</td>
+            <td class="p-2.5 border-r border-[var(--border-color)] font-semibold">R$ ${fmt(parcela)}</td>
+            <td class="p-2.5 border-r border-[var(--border-color)]">R$ ${fmt(total)}</td>
+            <td class="p-2.5 text-center">${tagStatus}</td>
+          </tr>
+        `;
+      }
+
+      h2 += `</tbody></table></div>`;
+      r.innerHTML = h2;
+    };
+    cv.oninput = calcularTabela;
+    calcularTabela();
+  }
+}
+
+function copiar(btn) {
+  var prev = btn.previousElementSibling;
+  var text = prev ? prev.textContent : "";
+  var origHtml = btn.innerHTML;
+
+  function setCopied() {
+    btn.innerHTML = `<i class="fa-solid fa-check text-emerald-500"></i> Copiado!`;
+    setTimeout(function() {
+      btn.innerHTML = origHtml;
+    }, 1800);
+  }
+
+  function fallback() {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      setCopied();
+    } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  try {
+    navigator.clipboard.writeText(text).then(setCopied, fallback);
+  } catch (e) {
+    fallback();
+  }
+}
+
+function go(i, push) {
+  cur = i;
+  sub = -1;
+  show();
+  if (push) {
+    try {
+      location.hash = T[i].id;
+    } catch (e) {}
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function fromHash() {
+  var h = "";
+  try {
+    h = location.hash.replace("#", "");
+  } catch (e) {}
+  go(idx(h), false);
+}
+
+function idx(id) {
+  for (var i = 0; i < T.length; i++) {
+    if (T[i].id === id) return i;
+  }
+  return 0;
+}
+
+function toggleTheme() {
+  var isDark = document.documentElement.classList.toggle('dark');
+  var themeIcon = document.getElementById("themeIcon");
+  var themeText = document.getElementById("themeText");
+
+  if (isDark) {
+    themeIcon.className = "fa-solid fa-sun";
+    themeText.textContent = "Claro";
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeIcon.className = "fa-solid fa-moon";
+    themeText.textContent = "Escuro";
+    localStorage.setItem("theme", "light");
+  }
+}
+
+(function initTheme() {
+  var saved = localStorage.getItem("theme");
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === "dark" || (!saved && prefersDark)) {
+    document.documentElement.classList.add('dark');
+    document.getElementById("themeIcon").className = "fa-solid fa-sun";
+    document.getElementById("themeText").textContent = "Claro";
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.getElementById("themeIcon").className = "fa-solid fa-moon";
+    document.getElementById("themeText").textContent = "Escuro";
+  }
+})();
+
+window.addEventListener("hashchange", fromHash);
+fromHash();
+</script>
+</body>
+</html>
