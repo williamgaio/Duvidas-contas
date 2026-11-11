@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dúvidas Contas - Hospital Moinhos de Vento</title>
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- IBM Plex Sans Font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          siteBg: '#e9ecef',
+          btnBg: '#b0bec5',
+          btnHover: '#90a4ae',
+          btnText: '#2c3e50',
+          bannerDark: '#1a252f'
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --bg-main: #e9ecef;
+    --card-bg: #ffffff;
+    --text-main: #212529;
+    --text-muted: #495057;
+    --border-color: #ced4da;
+    --btn-bg: #b0bec5;
+    --btn-hover: #90a4ae;
+    --btn-text: #1a252f;
+  }
+  
+  .dark {
+    --bg-main: #12181f;
+    --card-bg: #1c242e;
+    --text-main: #e9ecef;
+    --text-muted: #a0aec0;
+    --border-color: #2d3748;
+    --btn-bg: #2d3748;
+    --btn-hover: #4a5568;
+    --btn-text: #e2e8f0;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .hero-banner {
+    background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.3);
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body class="min-h-screen transition-colors duration-200">
+
+<!-- Header / Banner Principal -->
+<header class="hero-banner h-48 md:h-56 flex items-center justify-center text-center shadow-inner relative">
+  <div class="px-4">
+    <h1 class="text-3xl md:text-5xl font-bold text-white tracking-wide drop-shadow-md">Dúvidas Contas</h1>
+    <p class="text-xs md:text-sm text-gray-200 mt-2 tracking-widest uppercase font-medium">Hospital Moinhos de Vento — Portal de Rotinas e Contatos</p>
+  </div>
+  
+  <div class="absolute top-4 right-4 flex items-center gap-2">
+    <button id="themeToggleBtn" onclick="toggleTheme()" class="px-3 py-1.5 rounded-md bg-black/40 text-white hover:bg-black/60 transition-all text-xs flex items-center gap-1.5 backdrop-blur-sm border border-white/20">
+      <i id="themeIcon" class="fa-solid fa-sun"></i>
+      <span id="themeText" class="hidden sm:inline">Claro</span>
+    </button>
+    <button onclick="go(0, true)" class="px-3 py-1.5 rounded-md bg-black/40 text-white hover:bg-black/60 transition-all text-xs flex items-center gap-1.5 backdrop-blur-sm border border-white/20">
+      <i class="fa-solid fa-house"></i>
+      <span class="hidden sm:inline">Início</span>
+    </button>
+  </div>
+</header>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+
+  <!-- Dynamic Breadcrumb -->
+  <div id="breadcrumb" class="mb-6 flex items-center gap-2 text-xs text-[var(--text-muted)] hidden">
+    <button onclick="go(0, true)" class="hover:underline flex items-center gap-1 font-semibold">
+      <i class="fa-solid fa-house text-[10px]"></i> Início
+    </button>
+    <i class="fa-solid fa-chevron-right text-[9px] opacity-60"></i>
+    <span id="breadcrumbCurrent" class="font-bold text-blue-600 dark:text-blue-400"></span>
+  </div>
+
+  <!-- Container Conteúdo Principal -->
+  <main id="main" tabindex="-1" class="outline-none">
+    <!-- Conteúdo dinâmico -->
+  </main>
+
+  <footer class="mt-12 text-center text-xs text-[var(--text-muted)] flex flex-col sm:flex-row justify-between items-center gap-2 border-t border-[var(--border-color)] pt-6">
+    <p>© Setor Dúvidas Contas — Hospital Moinhos de Vento</p>
+    <p class="flex items-center gap-1">
+      <i class="fa-solid fa-circle-info text-blue-500"></i> Uso exclusivo interno de equipe
+    </p>
+  </footer>
+</div>
+
+<script>
+var SECTION_ICONS = {
+  inicio: "fa-house",
+  treinamento: "fa-graduation-cap",
+  orpen: "fa-folder-open",
+  getnet: "fa-credit-card",
+  effort: "fa-headset",
+  formularios: "fa-file-signature",
+  ferramentas: "fa-wrench",
+  lembretes: "fa-bell",
+  checkout: "fa-cash-register",
+  indicadores: "
